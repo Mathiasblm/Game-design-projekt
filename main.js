@@ -12,6 +12,8 @@ puzzleImage.src = "bugs.jpg";
 
 let mouseIsDown = "false";
 let clickedPiece = {};
+let xOffset = 0;
+let yOffset = 0;
 let mousePosition = {};
 let rows = 3;
 let columns = 3;
@@ -24,8 +26,8 @@ puzzleImage.onload = function () {
   for(let rowNumber = 0; rowNumber < rows; rowNumber++) {
       for (let columnNumber = 0; columnNumber < columns; columnNumber++) {
           pieces.push(new Piece(
-              Math.random()*canvas.width*1, // 0.8
-              Math.random()*canvas.height*1, // 0.8
+            Math.random()*(canvas.width-puzzleImage.width / columns),
+            Math.random()*(canvas.height-puzzleImage.height / columns),
               rowNumber,
               columnNumber)
           );
@@ -40,8 +42,8 @@ puzzleImage.onload = function () {
           piece.draw();
 
       if(clickedPiece != undefined) {
-          clickedPiece.xPos = mousePosition.x;
-          clickedPiece.yPos = mousePosition.y;
+          clickedPiece.xPos = mousePosition.x - xOffset; //Det er her den er gal når man klikker på en brik
+          clickedPiece.yPos = mousePosition.y - yOffset;
       }
 
   }, 1000/60);
@@ -58,6 +60,7 @@ canvas.addEventListener("mousemove", function (event) {
 
 // 
 canvas.addEventListener("mousedown", function (event) {
+  
 
   if(!mouseIsDown) {
       for(let piece of pieces) {
@@ -69,7 +72,8 @@ canvas.addEventListener("mousedown", function (event) {
           ) 
           {
               clickedPiece = piece;
-              
+              xOffset = mousePosition.x - piece.xPos;
+              yOffset = mousePosition.y - piece.yPos;
           }
       }
       mouseIsDown = true;
