@@ -7,11 +7,10 @@ body {
 }
 
 body {
-  /*
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
-  */
+
   overflow: hidden;
 }
 
@@ -21,16 +20,17 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  /*
+
   z-index: 3;
+  /*
   background-color: #f3f3f3;
   width: 500px;
   height: 500px;
   */
 }
-/*
+
 @keyframes gradient {
-  /*@keyframes bliver brugt når du skifter fra en css stil til en anden
+  /*@keyframes bliver brugt når du skifter fra en css stil til en anden*/
   0% {
     background-position: 0% 50%;
   }
@@ -41,4 +41,3 @@ body {
     background-position: 0% 50%;
   }
 }
-*/

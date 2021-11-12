@@ -13,13 +13,13 @@ puzzleImage.src = "bugs.jpg";
 let mouseIsDown = "false";
 let clickedPiece = {};
 let mousePosition = {};
-let rows = 10;
-let columns = 10;
+let rows = 3;
+let columns = 3;
 let pieces = [];
 
 
 
-puzzelImage.onload = function () {
+puzzleImage.onload = function () {
   //generate the piece objects at random positions
   for(let rowNumber = 0; rowNumber < rows; rowNumber++) {
       for (let columnNumber = 0; columnNumber < columns; columnNumber++) {
@@ -40,8 +40,8 @@ puzzelImage.onload = function () {
           piece.draw();
 
       if(clickedPiece != undefined) {
-          clickedPiece.xPosition = mousePosition.x;
-          clickedPiece.yPosition = mousePosition.y;
+          clickedPiece.xPos = mousePosition.x;
+          clickedPiece.yPos = mousePosition.y;
       }
 
   }, 1000/60);
@@ -62,21 +62,24 @@ canvas.addEventListener("mousedown", function (event) {
   if(!mouseIsDown) {
       for(let piece of pieces) {
           if(
-              piece.xPosition < mousePosition.x && 
-              piece.yPosition < mousePosition.y &&
-              piece.xPosition + piece.width > mousePosition.x &&
-              piece.yPosition + piece.height > mousePosition.y
+              piece.xPos < mousePosition.x && 
+              piece.yPos < mousePosition.y &&
+              piece.xPos + piece.width > mousePosition.x &&
+              piece.yPos + piece.height > mousePosition.y
           ) 
           {
               clickedPiece = piece;
+              
           }
       }
       mouseIsDown = true;
+      console.log("MouseDown = true");
   }
 });
 
 canvas.addEventListener("mouseup", function (event) {
   mouseIsDown = false;
+  console.log("MouseDown = False");
   clickedPiece = undefined;
 });
 
