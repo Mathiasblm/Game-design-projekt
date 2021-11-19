@@ -91,7 +91,7 @@ function clamp(value, min, max){
 }
 
 // update the mouse position
-canvas.addEventListener("mousemove", function (event) {
+canvas.addEventListener("mousemove", function () {
   var rect = canvas.getBoundingClientRect();
   mousePosition = {
     x: event.clientX - rect.left, // account for border size
@@ -101,34 +101,29 @@ canvas.addEventListener("mousemove", function (event) {
 
 // 
 canvas.addEventListener("mousedown", function () {
-  
 
   if(!mouseIsDown) {
-      for(let piece of pieces) {
+      for(let i=0; i < pieces.length; i++) {
           if(
-              piece.xPos < mousePosition.x && 
-              piece.yPos < mousePosition.y &&
-              piece.xPos + piece.width > mousePosition.x &&
-              piece.yPos + piece.height > mousePosition.y
-          ) 
+              pieces[i].xPos < mousePosition.x && 
+              pieces[i].yPos < mousePosition.y &&
+              pieces[i].xPos + pieces[i].width > mousePosition.x &&
+              pieces[i].yPos + pieces[i].height > mousePosition.y) 
           {
-              clickedPiece = piece;
-              xOffset = mousePosition.x - piece.xPos;
-              yOffset = mousePosition.y - piece.yPos;
+              clickedPiece = pieces[i];
+              
+              pieces.splice(i,1)
+              pieces.push(clickedPiece)
+              
+              xOffset = mousePosition.x - pieces[i].xPos;
+              yOffset = mousePosition.y - pieces[i].yPos;
           }
       }
       mouseIsDown = true;
-      
   }
 });
 
 canvas.addEventListener("mouseup", function () {
-  mouseIsDown = false;
-  
-  clickedPiece = undefined;
-});
-
-document.addEventListener("mouseup", function () {
   mouseIsDown = false;
   clickedPiece = undefined;
 });
