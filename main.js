@@ -8,8 +8,9 @@ canvas.height = window.innerHeight;
 
 
 let puzzleImage = new Image();
-puzzleImage.src = "bugs.jpg";
+puzzleImage.src = "boat.png";
 
+let scale = 1;
 let mouseIsDown = "false";
 let clickedPiece = {};
 let xOffset = 0;
@@ -21,13 +22,18 @@ let pieces = [];
 
 
 
+
 puzzleImage.onload = function () {
+
+  // virker kun med kvadratiske billeder
+  scale = 500/puzzleImage.width;
+
   //generate the piece objects at random positions
   for(let rowNumber = 0; rowNumber < rows; rowNumber++) {
       for (let columnNumber = 0; columnNumber < columns; columnNumber++) {
           pieces.push(new Piece(
-            Math.random()*(canvas.width-puzzleImage.width / columns),
-            Math.random()*(canvas.height-puzzleImage.height / columns),
+            Math.random()*(canvas.width-puzzleImage.width / columns * scale),
+            Math.random()*(canvas.height-puzzleImage.height / columns * scale),
               rowNumber,
               columnNumber)
           );
@@ -42,11 +48,46 @@ puzzleImage.onload = function () {
           piece.draw();
 
       if(clickedPiece != undefined) {
-          clickedPiece.xPos = mousePosition.x - xOffset; //Det er her den er gal når man klikker på en brik
-          clickedPiece.yPos = mousePosition.y - yOffset;
+          clickedPiece.xPos = clamp(mousePosition.x - xOffset, 0, canvas.width-clickedPiece.width); //Det er her den er gal når man klikker på en brik
+          clickedPiece.yPos = clamp(mousePosition.y - yOffset, 0, canvas.height-clickedPiece.height);
       }
+      
 
-  }, 1000/60);
+  }, 1000/100);
+}
+/*
+function clamp(){
+  let minWidth = 0;
+  let minHeight = 0;
+  let maxWidth = canvas.width - clickedPiece.width;
+  let maxHeight = canvas.height - clickedPiece.height;
+
+  if(clickedPiece.xPos <= minWidth){
+    clickedPiece.xPos = minWidth;
+  }
+  if(clickedPiece.yPos <= minHeight){
+    clickedPiece.yPos = minHeight;
+  }
+  if(clickedPiece.xPos >= maxWidth){
+    clickedPiece.xPos = maxWidth
+  }
+  if(clickedPiece.yPos >= maxHeight){
+    clickedPiece.yPos = maxHeight;
+  }
+}
+*/
+// logik som ovenfor
+function clamp(value, min, max){
+
+  if(value <= min){
+    value = min;
+  }
+  if(value >= max){
+    value = max;
+  }
+
+  return value;
+  
 }
 
 // update the mouse position
@@ -59,7 +100,7 @@ canvas.addEventListener("mousemove", function (event) {
 });
 
 // 
-canvas.addEventListener("mousedown", function (event) {
+canvas.addEventListener("mousedown", function () {
   
 
   if(!mouseIsDown) {
@@ -77,17 +118,17 @@ canvas.addEventListener("mousedown", function (event) {
           }
       }
       mouseIsDown = true;
-      console.log("MouseDown = true");
+      
   }
 });
 
-canvas.addEventListener("mouseup", function (event) {
+canvas.addEventListener("mouseup", function () {
   mouseIsDown = false;
-  console.log("MouseDown = False");
+  
   clickedPiece = undefined;
 });
 
-document.addEventListener("mouseup", function (event) {
+document.addEventListener("mouseup", function () {
   mouseIsDown = false;
   clickedPiece = undefined;
 });
