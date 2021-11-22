@@ -1,31 +1,29 @@
 
 //her tegner vi griddet til at placere brikkerne
-/*
-class Grid{
-    constructor(width, height, colums, rows){
-        this.width = width;
-        this.height = height;
-        this.colums = colums;
-        this.rows = rows;
+
+class Line{
+    constructor(startXpos, startYpos, endXpos, endYpos){
+        this.startXpos = startXpos;
+        this.startYpos = startYpos;
+        this.endXpos = endXpos;
+        this.endYpos = endYpos;
     }
 
     draw(){
-        totalWidth = piece.width * columns;
-        totalHeight = piece.height * rows;
+        console.log("Draw line from", 
+        this.startXpos,
+        this.startYpos, "To",
+        this.endXpos,
+        this.endYpos);
+
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        ctx.moveTo(this.startXpos, this.startYpos); // from this point (x, y)
+        ctx.lineTo(this.endXpos, this.endYpos); // to this point (x, y)
+        ctx.stroke();
+    
     }
 }
-*/
-function draw() {
 
-    // set line stroke and line width
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = 10;
-
-    // draw a red line
-    ctx.beginPath();
-    ctx.moveTo(100, 100);
-    ctx.lineTo(300, 100);
-    ctx.stroke();
-
-}
-draw();

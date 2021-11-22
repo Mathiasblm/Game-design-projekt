@@ -2,13 +2,15 @@
 
 
 class Piece{
-    constructor(xPos, yPos, rowIndex, colIndex, stay){
+    constructor(xPos, yPos, rowIndex, colIndex){
         this.xPos = xPos;
         this.yPos = yPos;
         this.rowIndex = rowIndex;
         this.colIndex = colIndex;
         this.width = puzzleImage.width / columns * scale;
         this.height = puzzleImage.height / rows * scale;
+        this.correctXPos = (canvas.width-puzzleImage.width * scale)/2+this.colIndex * this.width;
+        this.correctYPos = (canvas.height-puzzleImage.height * scale)/2+this.rowIndex * this.height+20;
     }
 
     draw(){

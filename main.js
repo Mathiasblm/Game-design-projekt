@@ -16,9 +16,13 @@ let clickedPiece = {};
 let xOffset = 0;
 let yOffset = 0;
 let mousePosition = {};
-let rows = 3;
-let columns = 3;
+let rows = 8;
+let columns = 8;
 let pieces = [];
+// line variables
+let lines = [];
+
+
 
 
 
@@ -27,6 +31,11 @@ puzzleImage.onload = function () {
 
   // virker kun med kvadratiske billeder
   scale = 500/puzzleImage.width;
+  // line variables
+  let pieceWidth = puzzleImage.width/columns * scale;
+  let pieceHeight = puzzleImage.height/rows * scale;
+  let imageX = (canvas.width-puzzleImage.width * scale)/2;
+  let imageY = (canvas.height-puzzleImage.height * scale)/2;
 
   //generate the piece objects at random positions
   for(let rowNumber = 0; rowNumber < rows; rowNumber++) {
@@ -38,12 +47,40 @@ puzzleImage.onload = function () {
               columnNumber)
           );
       }
+
+    // vertical lines
+    for (let i = 0; i <= columns; i++){
+      lines.push(new Line(
+          imageX + (pieceWidth * i),
+          imageY,
+          imageX + (pieceWidth * i),
+          imageY + puzzleImage.height * scale
+      ));
+
+    }
+
+    // Horizontal lines
+    for (let i = 0; i <= rows; i++){
+      lines.push(new Line(
+          imageX,
+          imageY + (pieceHeight * i),
+          imageX + puzzleImage.width * scale,
+          imageY + (pieceHeight * i)
+      ));
+
+    }
   }
 
   // draw the pieces 60 times per second
   setInterval(function() {
-
       ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      // draw grid
+
+      for (let line of lines){
+        line.draw();
+      }
+
       for(let piece of pieces)
           piece.draw();
 
@@ -51,6 +88,7 @@ puzzleImage.onload = function () {
           clickedPiece.xPos = clamp(mousePosition.x - xOffset, 0, canvas.width-clickedPiece.width); //Det er her den er gal når man klikker på en brik
           clickedPiece.yPos = clamp(mousePosition.y - yOffset, 0, canvas.height-clickedPiece.height);
       }
+      
       
 
   }, 1000/100);
@@ -91,7 +129,7 @@ function clamp(value, min, max){
 }
 
 // update the mouse position
-canvas.addEventListener("mousemove", function () {
+canvas.addEventListener("mousemove", function (event) {
   var rect = canvas.getBoundingClientRect();
   mousePosition = {
     x: event.clientX - rect.left, // account for border size

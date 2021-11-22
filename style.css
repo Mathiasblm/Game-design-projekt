@@ -22,11 +22,6 @@ body {
   right: 0;
 
   z-index: 3;
-  /*
-  background-color: #f3f3f3;
-  width: 500px;
-  height: 500px;
-  */
 }
 
 @keyframes gradient {
