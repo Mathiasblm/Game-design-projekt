@@ -6,6 +6,7 @@ body {
   height: 100%;
 }
 
+/*Laver en linear-gradient med forskellige farver, og dette skaber en bølge effekt når du laver en ease animation*/
 body {
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
@@ -20,7 +21,6 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-
   z-index: 3;
 }
 
