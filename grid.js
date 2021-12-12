@@ -1,4 +1,3 @@
-
 //her tegner vi griddet til at placere brikkerne
 
 class Line{
@@ -10,12 +9,6 @@ class Line{
     }
 
     draw(){
-        console.log("Draw line from", 
-        this.startXpos,
-        this.startYpos, "To",
-        this.endXpos,
-        this.endYpos);
-
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 2;
 

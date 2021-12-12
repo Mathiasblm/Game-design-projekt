@@ -1,11 +1,7 @@
-
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-
-
-
 
 let puzzleImage = new Image();
 puzzleImage.src = "boat.png";
@@ -22,20 +18,16 @@ let pieces = [];
 // line variables
 let lines = [];
 
-
-
-
-
-
 puzzleImage.onload = function () {
 
   // virker kun med kvadratiske billeder
   scale = 500/puzzleImage.width;
+    
   // line variables
   let pieceWidth = puzzleImage.width/columns * scale;
   let pieceHeight = puzzleImage.height/rows * scale;
   let imageX = (canvas.width-puzzleImage.width * scale)/2;
-  let imageY = (canvas.height-puzzleImage.height * scale)/2;
+  let imageY = (canvas.height-puzzleImage.height * scale)/2+20;
 
   //generate the piece objects at random positions
   for(let rowNumber = 0; rowNumber < rows; rowNumber++) {
@@ -73,11 +65,11 @@ puzzleImage.onload = function () {
 
   // draw the pieces 60 times per second
   setInterval(function() {
+      completed(pieces)
       ctx.clearRect(0,0,canvas.width,canvas.height);
 
       // draw grid
-
-      for (let line of lines){
+      for(let line of lines) {
         line.draw();
       }
 
@@ -88,32 +80,9 @@ puzzleImage.onload = function () {
           clickedPiece.xPos = clamp(mousePosition.x - xOffset, 0, canvas.width-clickedPiece.width); //Det er her den er gal når man klikker på en brik
           clickedPiece.yPos = clamp(mousePosition.y - yOffset, 0, canvas.height-clickedPiece.height);
       }
-      
-      
-
   }, 1000/100);
 }
-/*
-function clamp(){
-  let minWidth = 0;
-  let minHeight = 0;
-  let maxWidth = canvas.width - clickedPiece.width;
-  let maxHeight = canvas.height - clickedPiece.height;
 
-  if(clickedPiece.xPos <= minWidth){
-    clickedPiece.xPos = minWidth;
-  }
-  if(clickedPiece.yPos <= minHeight){
-    clickedPiece.yPos = minHeight;
-  }
-  if(clickedPiece.xPos >= maxWidth){
-    clickedPiece.xPos = maxWidth
-  }
-  if(clickedPiece.yPos >= maxHeight){
-    clickedPiece.yPos = maxHeight;
-  }
-}
-*/
 // logik som ovenfor
 function clamp(value, min, max){
 
@@ -123,7 +92,6 @@ function clamp(value, min, max){
   if(value >= max){
     value = max;
   }
-
   return value;
   
 }
@@ -162,6 +130,28 @@ canvas.addEventListener("mousedown", function () {
 });
 
 canvas.addEventListener("mouseup", function () {
-  mouseIsDown = false;
-  clickedPiece = undefined;
+    
+    if(pieces[pieces.length-1].isClose() == true) {
+        pieces[pieces.length-1].snap()
+    }
+
+    mouseIsDown = false;
+    clickedPiece = undefined;
 });
+
+function complete() {
+    for(let i = 0; i < pieces.length; i++) {
+        pieces[i].xPos = pieces[i].correctXPos
+        pieces[i].yPos = pieces[i].correctYPos
+    }
+};
+
+function completed() {
+    for(let i = 0; i < pieces.length; i++) {
+        if(pieces[i].xPos !== pieces[i].correctXPos || pieces[i].yPos !== pieces[i].correctYPos) {
+            return false
+        }
+    }
+    alert("congratulations")
+    return true
+}

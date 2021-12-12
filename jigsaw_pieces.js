@@ -1,6 +1,4 @@
 // Her laver vi brikkerne...
-
-
 class Piece{
     constructor(xPos, yPos, rowIndex, colIndex){
         this.xPos = xPos;
@@ -14,7 +12,6 @@ class Piece{
     }
 
     draw(){
-
         ctx.drawImage(
             puzzleImage,
             (puzzleImage.width / columns)* this.colIndex,
@@ -26,7 +23,21 @@ class Piece{
             this.width,
             this.height
         );
-
     }
-   
+    
+    isClose() {
+        if(Math.sqrt((this.xPos-this.correctXPos)*(this.xPos-this.correctXPos)+(this.yPos-this.correctYPos)*(this.yPos-this.correctYPos)) < this.width/2) {
+            return true;
+        }
+        return false;
+    }
+    
+    snap() {
+        this.xPos = this.correctXPos;
+        this.yPos = this.correctYPos;
+    }
 }
+
+function distance() {
+    return ;
+    }
